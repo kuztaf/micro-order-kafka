@@ -1,0 +1,46 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: notification-service
+  
+  # Configuración de PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5433/notificationsdb
+    username: notifuser
+    password: notifpass
+    driver-class-name: org.postgresql.Driver
+  
+  # Configuración de JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  # Configuración de Kafka Consumer
+  kafka:
+    bootstrap-servers: localhost:9093
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: orderEvent:com.example.notificationservice.event.OrderEvent
+        spring.json.trusted.packages: "*"
+
+# Configuración del topic
+kafka:
+  topic:
+    name: order-events
+
+# Logging
+logging:
+  level:
+    com.example.notificationservice: DEBUG
+    org.springframework.kafka: INFO
