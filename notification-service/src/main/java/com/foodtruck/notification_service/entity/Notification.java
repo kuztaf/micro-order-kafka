@@ -2,52 +2,32 @@ package com.foodtruck.notification_service.entity;
 
 import jakarta.persistence.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
+@Table(name = "notifications")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @NotNull
+    @Column(nullable = false)
     private Long orderId;
+
+    @NotBlank
+    @NotNull
+    @Column(nullable = false, length = 255)
     private String message;
-    private String status;
 
-    public Notification() {}
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private NotificationStatus status;
 
-    public Notification(Long orderId, String message, String status) {
-        this.orderId = orderId;
-        this.message = message;
-        this.status = status;
-    }
+}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+public enum NotificationStatus {
+    SENT, FAILED
 }
