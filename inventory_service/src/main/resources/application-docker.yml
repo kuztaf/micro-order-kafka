@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-inventory:5432/inventory_db
+    username: inventory_user
+    password: inventory_pass
+  kafka:
+    bootstrap-servers: kafka:9092
